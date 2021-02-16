@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header>
+			<h1>Scramble Word Game
+			</h1>
+		</header>
+		<section>
+			<div class="gameArea">
+				<h3 class="msg"></h3>
+				<input type="text" class="hidden">
+				<button class="btn" id="btn">Click here to play</button>
+			</div>
+		</section>
+		<script>
+			const msg=document.querySelector('.msg');
+			const guess= document.querySelector('input');
+			const btn=document.querySelector('.btn');
+			 let play=false;
+			 let newWords="";
+			 let randomwords="";
+			let sWords=['python','javacript','c++','php','java','c#','html','css','reactjs','angular','swift','android','sql'];
+
+            const createNewWords=()=> {
+            	let ranNum= Math.floor(Math.random() *sWords.length);
+            
+            	let newTempSwords =sWords[ranNum];
+            	//console.log(newTempSwords.split("")); 
+            	return newTempSwords;
+
+
+            }
+            //to shuffle words
+            const scrambleWords =(arr)=>{
+            	for(let i=arr.length-1;i>0;i--){
+            		let temp =arr[i];
+            		let j=Math.floor(Math.random()*(i+1));
+            		arr[i]=arr[j];
+            		arr[j]=temp;
+
+            		
+            	}
+            	return arr;
+            	}
+           
+			btn.addEventListener('click', function(){
+				if(!play){
+					play=true;
+					btn.innerHTML="Guess";
+					guess.classList.toggle('hidden');
+					newWords=createNewWords();
+					randomwords=scrambleWords(newWords.split("")).join("");  //to split a string  and join shuffle string 
+					msg.innerHTML= `Guess the word: ${randomwords}`;
+				}
+				else{
+					//userinput word store
+					let tempword= guess.value;
+					if (tempword==newWords){
+
+						//console.log('correct');
+						play=false;
+						msg.innerHTML=` Your Guess is right .The word is ${newWords}`;
+						btn.innerHTML="Next Guess";
+						guess.classList.toggle('hidden');
+						guess.value="";
+
+					}else{
+						
+						msg.innerHTML=`Oops, Your Guess is wrong. Please try again ${randomwords}`;
+						btn.innerHTML="Guess again";
+						
+
+
+
+					}
+
+				}
+
+			})
+
+
+		</script>
+	</body>
+</html>
+
